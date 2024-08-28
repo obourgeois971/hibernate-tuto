@@ -34,7 +34,14 @@ public class MovieRepository {
 		LOGGER.trace("entityManager.contains => " + entityManager.contains(movie));
 	}
 	
+	public Movie find(Long id) {
+		Movie result = entityManager.find(Movie.class, id);
+		LOGGER.trace("entityManager.contains => " + entityManager.contains(result));
+		return result;
+	}
+	
 	public List<Movie> getAll() {
-		throw new UnsupportedOperationException();
+		// throw new UnsupportedOperationException();
+		return entityManager.createQuery("from Movie", Movie.class).getResultList();
 	}
 }
