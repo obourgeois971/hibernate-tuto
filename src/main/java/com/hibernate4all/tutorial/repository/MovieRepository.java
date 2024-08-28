@@ -29,9 +29,11 @@ public class MovieRepository {
 	@Transactional
 	public void persist(Movie movie) {
 		// throw new UnsupportedOperationException();
-		LOGGER.trace("entityManager.contains => " + entityManager.contains(movie));
+		// LOGGER.trace("entityManager.contains => " + entityManager.contains(movie));
 		entityManager.persist(movie);
-		LOGGER.trace("entityManager.contains => " + entityManager.contains(movie));
+		// LOGGER.trace("entityManager.contains => " + entityManager.contains(movie));
+		// entityManager.detach(movie); //  Pour l'enlever de la session (enlever de l'entitée)
+		// LOGGER.trace("entityManager.contains => " + entityManager.contains(movie));
 	}
 	
 	public Movie find(Long id) {
@@ -43,5 +45,23 @@ public class MovieRepository {
 	public List<Movie> getAll() {
 		// throw new UnsupportedOperationException();
 		return entityManager.createQuery("from Movie", Movie.class).getResultList();
+	}
+	
+	@Transactional
+	public Movie merge(Movie movie) {
+		return entityManager.merge(movie);
+	}
+	
+	@Transactional
+	public void remove(Long l) {
+		Movie movie = entityManager.find(Movie.class, l);
+		entityManager.remove(movie);
+	}
+	
+	@Transactional // pour ouvri la session
+	public Movie getReference(Long l) {
+		Movie result = entityManager.getReference(Movie.class, l);
+		LOGGER.trace("movie name : " + result.getName());
+		return result;
 	}
 }
