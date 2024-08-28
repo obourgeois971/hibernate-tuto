@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.hibernate4all.tutorial.domain.Movie;
@@ -13,6 +15,8 @@ import com.hibernate4all.tutorial.domain.Movie;
 @Repository
 public class MovieRepository {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(MovieRepository.class);
+	
 	//	3 règles d’or
 	//	-	Toujours connaitre l’état de la session (c’est savoir si on est ou pas dans une session)
 	//	-	Si on est ou pas dans une transaction (c’est généralement lorsque l’on a une écriture dans la BD et avec @Transactional)
@@ -25,7 +29,9 @@ public class MovieRepository {
 	@Transactional
 	public void persist(Movie movie) {
 		// throw new UnsupportedOperationException();
+		LOGGER.trace("entityManager.contains => " + entityManager.contains(movie));
 		entityManager.persist(movie);
+		LOGGER.trace("entityManager.contains => " + entityManager.contains(movie));
 	}
 	
 	public List<Movie> getAll() {

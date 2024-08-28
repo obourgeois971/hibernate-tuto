@@ -21,5 +21,6 @@ public class MovieRepositoryTest {
 		Movie movie = new Movie();
 		movie.setName("Inception");
 		repository.persist(movie);
+		System.out.println("fin de test");
 	}
 }
